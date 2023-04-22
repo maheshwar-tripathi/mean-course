@@ -1,6 +1,11 @@
-<h3>The Post Create Component</h3>
-
-<textarea rows="6" [(ngModel)]="interedValue"></textarea>
-<hr>
-<button (click)="onAddPost()">Save Post</button>
+<mat-card>
+  <mat-form-field>
+    <textarea matInput rows="6" [(ngModel)]="interedValue"></textarea>
+  </mat-form-field>
+  <br>
+  <button
+    mat-raised-button
+    color="accent"
+    (click)="onAddPost()">Save Post</button>
+</mat-card>
 <p>{{ newPost }}</p>
