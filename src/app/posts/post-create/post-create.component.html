@@ -1,0 +1,6 @@
+<h3>The Post Create Component</h3>
+
+<textarea rows="6" [value]="newPost" #postInput></textarea>
+<hr>
+<button (click)="onAddPost(postInput)">Save Post</button>
+<p>{{ newPost }}</p>
