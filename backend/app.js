@@ -1,10 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
+const Post = require('./models/post');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const password = process.env.DBpwd;
+
+
+
+mongoose.connect("mongodb+srv://maheshwar2005-github:"+password+"@mongo-mean-app-data.r4ciqts.mongodb.net/node-angular?retryWrites=true&w=majority")
+.then(() => {
+  console.log("Connected to mongodb!");
+})
+.catch(() => {
+  console.log("Connected to mongodb failed!");
+});
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,8 +35,13 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content
+  });
+
+  post.save();
+  // console.log(post);
 
   res.status(201).json({
     message: "Post added successfully!"
@@ -29,28 +49,16 @@ app.post("/api/posts", (req, res, next) => {
 });
 
 app.get("/api/posts",(req, res, next) => {
-  const posts = [
-    {
-      id: "p_12345",
-      title: "First post from node server",
-      content: "The post is coming from node server."
-    },
-    {
-      id: "p_98765",
-      title: "Second post from node server",
-      content: "The post is coming from node server!"
-    },
-    {
-      id: "p_432567",
-      title: "Third post from node server",
-      content: "The final post is coming from node server!"
-    }
-  ]
-
-  res.status(200).json({
-    message: "Posts get successfully!",
-    posts: posts
-  });
+  Post.find()
+    .then(results => {
+      res.status(200).json({
+        message: "Posts get successfully!",
+        posts: results
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
 });
 
 
