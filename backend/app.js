@@ -3,17 +3,16 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const Post = require('./models/post');
+require('dotenv').config();
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const password = process.env.DBpwd;
+const DB_PASSWORD = process.env.DB_PASSWORD;
 
-
-
-mongoose.connect("mongodb+srv://maheshwar2005-github:"+password+"@mongo-mean-app-data.r4ciqts.mongodb.net/node-angular?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://maheshwar2005-github:"+DB_PASSWORD+"@mongo-mean-app-data.r4ciqts.mongodb.net/node-angular?retryWrites=true&w=majority")
 .then(() => {
   console.log("Connected to mongodb!");
 })
