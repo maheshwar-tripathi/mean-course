@@ -47,3 +47,5 @@ Thumbs.db
 
 # dev environment file
 .env
+
+/backend/images/
