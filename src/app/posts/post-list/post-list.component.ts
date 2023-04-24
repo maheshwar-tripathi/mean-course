@@ -10,13 +10,6 @@ import { PostsService } from '../posts.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent implements OnInit, OnDestroy {
-  // posts = [
-  //   {title: 'First Post', content: 'this is the first\'s post content'},
-  //   {title: 'Second Post', content: 'this is the second\'s post content'},
-  //   {title: 'Third Post', content: 'this is the third\'s post content'},
-  //   {title: 'Fourth Post', content: 'this is the fourth\'s post content'},
-  //   {title: 'Fifth Post', content: 'this is the fifth\'s post content'},
-  // ];
 
   posts: Post[] = [];
   isLoading = false;

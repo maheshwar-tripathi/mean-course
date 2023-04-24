@@ -34,7 +34,6 @@ export class PostsService {
       .subscribe((transformedPosts) => {
         this.posts = transformedPosts;
         this.postsUpdated.next([...this.posts]);
-        this.router.navigate(['/']);
       });
   }
 

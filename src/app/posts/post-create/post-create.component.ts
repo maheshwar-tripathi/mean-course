@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 
 
 import { Post } from "../post.model";
@@ -18,7 +18,7 @@ export class PostCreateComponent implements OnInit {
   private postId!: string;
   isLoading = false;
 
-  constructor(public postsService: PostsService, public route: ActivatedRoute) {}
+  constructor(public postsService: PostsService, public route: ActivatedRoute, private router: Router) {}
 
   onSavePost(form: NgForm) {
     if(form.invalid) {
@@ -28,11 +28,11 @@ export class PostCreateComponent implements OnInit {
     if(this.mode === 'create') {
       this.postsService.addPost(form.value.title, form.value.content);
     } else{
-      this.isLoading = false;
       this.postsService.updatePost(this.postId, form.value.title, form.value.content);
     }
-
+    this.isLoading = false;
     form.resetForm();
+    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {
