@@ -10,3 +10,7 @@ textarea {
 mat-spineer {
   margin: auto;
 }
+
+input[type="file"] {
+  visibility: hidden;
+}
