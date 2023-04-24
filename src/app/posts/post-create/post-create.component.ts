@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 
 
@@ -14,28 +14,39 @@ import { PostsService } from "../posts.service";
 export class PostCreateComponent implements OnInit {
 
   public post: Post | undefined;
+  form!: FormGroup;
   private mode = "create";
   private postId!: string;
   isLoading = false;
 
   constructor(public postsService: PostsService, public route: ActivatedRoute, private router: Router) {}
 
-  onSavePost(form: NgForm) {
-    if(form.invalid) {
+  onSavePost() {
+    if(this.form?.invalid) {
       return;
     }
     this.isLoading = true;
     if(this.mode === 'create') {
-      this.postsService.addPost(form.value.title, form.value.content);
+      this.postsService.addPost(this.form?.value.title, this.form?.value.content);
     } else{
-      this.postsService.updatePost(this.postId, form.value.title, form.value.content);
+      this.postsService.updatePost(this.postId, this.form?.value.title, this.form?.value.content);
     }
     this.isLoading = false;
-    form.resetForm();
+    this.form?.reset();
     this.router.navigate(['/']);
   }
 
   ngOnInit(): void {
+
+    this.form = new FormGroup({
+      'title': new FormControl(null,{
+        validators: [Validators.required, Validators.minLength(3)]
+      }),
+      'content': new FormControl(null, {
+        validators: [Validators.required]
+      })
+    })
+
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if(paramMap.has('postId')) {
         this.mode = "edit";
@@ -44,6 +55,10 @@ export class PostCreateComponent implements OnInit {
         this.postsService.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
           this.post = {id: postData._id, title: postData.title, content: postData.content};
+          this.form.setValue({
+            'title': this.post.title,
+            'content': this.post.content
+          });
         });
 
       } else {
