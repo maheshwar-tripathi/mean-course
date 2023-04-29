@@ -16,9 +16,9 @@ app.use("/images", express.static(path.join("backend/images")));
 
 app.use(cors());
 
-const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_SOURCE = process.env.MONGO_DB_CONNECT_URL;
 
-mongoose.connect("mongodb+srv://maheshwar2005-github:"+DB_PASSWORD+"@mongo-mean-app-data.r4ciqts.mongodb.net/node-angular?retryWrites=true&w=majority")
+mongoose.connect(DB_SOURCE)
 .then(() => {
   console.log("Connected to mongodb!");
 })
